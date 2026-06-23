@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Aya CFA Level I</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="index.html"><span class="logo">A</span>
+      <span>Aya CFA<small>LEVEL I STUDY HUB</small></span></a>
+    <button class="nav-toggle" onclick="toggleNav()">&#9776;</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="notes.html">Notes</a>
+      <a href="formulas.html">Formula Sheets</a>
+      <a href="quizzes.html">Quizzes</a>
+    </div>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">Home</a> &rsaquo; <a href="quizzes.html">Quizzes</a> &rsaquo; <span id="crumbTopic">Quiz</span></div>
+  <div class="page-head">
+    <h1 id="quizTitle">Quiz</h1>
+    <p>Choose the best answer. You'll get instant feedback and an explanation after each question.</p>
+  </div>
+  <div class="quiz-card"><div id="quizApp"></div></div>
+</div>
+
+<footer class="site-footer">
+  <p>Aya CFA Level I Study Hub · <a href="notes.html">Notes</a> · <a href="formulas.html">Formula Sheets</a></p>
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script src="assets/js/quizzes.js"></script>
+<script>
+(function(){
+  var params=new URLSearchParams(location.search);
+  var id=params.get('t');
+  var qz=QUIZZES[id];
+  if(!qz){
+    document.getElementById('quizApp').innerHTML=
+      '<p>Quiz not found. <a href="quizzes.html">Back to all quizzes</a>.</p>';
+    return;
+  }
+  document.getElementById('quizTitle').textContent=qz.title+' — Quiz';
+  document.getElementById('crumbTopic').textContent=qz.title;
+  document.title=qz.title+' Quiz — Aya CFA';
+  startQuiz(qz);
+})();
+</script>
+</body>
+</html>

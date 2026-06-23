@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formula Sheets — Aya CFA Level I</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="index.html"><span class="logo">A</span>
+      <span>Aya CFA<small>LEVEL I STUDY HUB</small></span></a>
+    <button class="nav-toggle" onclick="toggleNav()">&#9776;</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="notes.html">Notes</a>
+      <a href="formulas.html">Formula Sheets</a>
+      <a href="quizzes.html">Quizzes</a>
+    </div>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">Home</a> &rsaquo; Formula Sheets</div>
+  <div class="page-head">
+    <h1>Formula Sheets</h1>
+    <p>Quick-reference formulas for the quantitative topics. Print or keep open while you work problems.</p>
+  </div>
+
+  <div class="toc">
+    <a href="#quant">Quant</a>
+    <a href="#econ">Economics</a>
+    <a href="#fsa">FSA</a>
+    <a href="#corporate">Corporate</a>
+    <a href="#equity">Equity</a>
+    <a href="#fixed">Fixed Income</a>
+    <a href="#deriv">Derivatives</a>
+    <a href="#pm">Portfolio Mgmt</a>
+  </div>
+
+  <!-- QUANT -->
+  <section class="section" id="quant">
+    <h2>Quantitative Methods</h2>
+    <table class="formulas">
+      <tr><th>Concept</th><th>Formula</th></tr>
+      <tr><td>Future value (single sum)</td><td class="fx">FV = PV (1 + r)<sup>n</sup></td></tr>
+      <tr><td>Present value (single sum)</td><td class="fx">PV = FV / (1 + r)<sup>n</sup></td></tr>
+      <tr><td>Effective annual rate</td><td class="fx">EAR = (1 + periodic rate)<sup>m</sup> − 1</td></tr>
+      <tr><td>PV of ordinary annuity</td><td class="fx">PV = A × [1 − (1 + r)<sup>−n</sup>] / r</td></tr>
+      <tr><td>PV of perpetuity</td><td class="fx">PV = A / r</td></tr>
+      <tr><td>Holding period return</td><td class="fx">HPR = (P₁ − P₀ + D₁) / P₀</td></tr>
+      <tr><td>Geometric mean return</td><td class="fx">[(1+R₁)(1+R₂)…(1+R<sub>n</sub>)]<sup>1/n</sup> − 1</td></tr>
+      <tr><td>Coefficient of variation</td><td class="fx">CV = σ / mean</td></tr>
+      <tr><td>Standardized value (Z)</td><td class="fx">Z = (X − μ) / σ</td></tr>
+      <tr><td>Confidence interval (mean)</td><td class="fx">x̄ ± (z or t) × (s / √n)</td></tr>
+      <tr><td>Correlation</td><td class="fx">ρ = Cov(X,Y) / (σ<sub>X</sub> σ<sub>Y</sub>)</td></tr>
+    </table>
+  </section>
+
+  <!-- ECON -->
+  <section class="section" id="econ">
+    <h2>Economics</h2>
+    <table class="formulas">
+      <tr><th>Concept</th><th>Formula</th></tr>
+      <tr><td>Price elasticity of demand</td><td class="fx">%Δ quantity / %Δ price</td></tr>
+      <tr><td>GDP (expenditure)</td><td class="fx">GDP = C + I + G + (X − M)</td></tr>
+      <tr><td>Fisher relation (approx.)</td><td class="fx">nominal ≈ real + expected inflation</td></tr>
+      <tr><td>Money multiplier</td><td class="fx">1 / reserve requirement</td></tr>
+      <tr><td>Forward premium / discount</td><td class="fx">(Forward − Spot) / Spot</td></tr>
+      <tr><td>Real exchange rate</td><td class="fx">nominal × (price<sub>foreign</sub> / price<sub>domestic</sub>)</td></tr>
+    </table>
+  </section>
+
+  <!-- FSA -->
+  <section class="section" id="fsa">
+    <h2>Financial Statement Analysis</h2>
+    <table class="formulas">
+      <tr><th>Concept</th><th>Formula</th></tr>
+      <tr><td>Accounting equation</td><td class="fx">Assets = Liabilities + Equity</td></tr>
+      <tr><td>Current ratio</td><td class="fx">Current assets / Current liabilities</td></tr>
+      <tr><td>Quick ratio</td><td class="fx">(Cash + Receivables + ST inv.) / Current liab.</td></tr>
+      <tr><td>Inventory turnover</td><td class="fx">COGS / Average inventory</td></tr>
+      <tr><td>Receivables turnover</td><td class="fx">Revenue / Average receivables</td></tr>
+      <tr><td>Net profit margin</td><td class="fx">Net income / Revenue</td></tr>
+      <tr><td>Return on equity</td><td class="fx">Net income / Average equity</td></tr>
+      <tr><td>DuPont (3-part) ROE</td><td class="fx">Net margin × Asset turnover × Financial leverage</td></tr>
+      <tr><td>Debt-to-equity</td><td class="fx">Total debt / Total equity</td></tr>
+      <tr><td>Interest coverage</td><td class="fx">EBIT / Interest expense</td></tr>
+    </table>
+  </section>
+
+  <!-- CORPORATE -->
+  <section class="section" id="corporate">
+    <h2>Corporate Issuers</h2>
+    <table class="formulas">
+      <tr><th>Concept</th><th>Formula</th></tr>
+      <tr><td>WACC</td><td class="fx">(w<sub>d</sub> r<sub>d</sub>(1−t)) + (w<sub>p</sub> r<sub>p</sub>) + (w<sub>e</sub> r<sub>e</sub>)</td></tr>
+      <tr><td>After-tax cost of debt</td><td class="fx">r<sub>d</sub> × (1 − tax rate)</td></tr>
+      <tr><td>Cost of equity (CAPM)</td><td class="fx">R<sub>f</sub> + β(R<sub>m</sub> − R<sub>f</sub>)</td></tr>
+      <tr><td>Cost of equity (DDM)</td><td class="fx">(D₁ / P₀) + g</td></tr>
+      <tr><td>NPV</td><td class="fx">Σ [CF<sub>t</sub> / (1 + r)<sup>t</sup>] − initial outlay</td></tr>
+      <tr><td>Degree of operating leverage</td><td class="fx">%Δ EBIT / %Δ sales</td></tr>
+      <tr><td>Degree of total leverage</td><td class="fx">DOL × DFL</td></tr>
+      <tr><td>Cash conversion cycle</td><td class="fx">DSO + DIO − DPO</td></tr>
+    </table>
+  </section>
+
+  <!-- EQUITY -->
+  <section class="section" id="equity">
+    <h2>Equity Investments</h2>
+    <table class="formulas">
+      <tr><th>Concept</th><th>Formula</th></tr>
+      <tr><td>Gordon growth (constant DDM)</td><td class="fx">V₀ = D₁ / (r − g)</td></tr>
+      <tr><td>Sustainable growth rate</td><td class="fx">g = retention ratio × ROE</td></tr>
+      <tr><td>Retention ratio</td><td class="fx">1 − dividend payout ratio</td></tr>
+      <tr><td>Leading P/E</td><td class="fx">Price / next year EPS</td></tr>
+      <tr><td>Justified leading P/E</td><td class="fx">(1 − b) / (r − g)</td></tr>
+      <tr><td>Preferred stock value</td><td class="fx">D / r</td></tr>
+      <tr><td>Margin call price (long)</td><td class="fx">P₀ × (1 − initial margin) / (1 − maint. margin)</td></tr>
+    </table>
+  </section>
+
+  <!-- FIXED INCOME -->
+  <section class="section" id="fixed">
+    <h2>Fixed Income</h2>
+    <table class="formulas">
+      <tr><th>Concept</th><th>Formula</th></tr>
+      <tr><td>Bond price</td><td class="fx">Σ [Coupon / (1+r)<sup>t</sup>] + Par / (1+r)<sup>n</sup></td></tr>
+      <tr><td>Current yield</td><td class="fx">Annual coupon / Bond price</td></tr>
+      <tr><td>Modified duration</td><td class="fx">Macaulay duration / (1 + YTM/m)</td></tr>
+      <tr><td>Effective duration</td><td class="fx">(P<sub>−</sub> − P<sub>+</sub>) / (2 × P₀ × Δy)</td></tr>
+      <tr><td>Price change (duration)</td><td class="fx">−ModDur × Δy</td></tr>
+      <tr><td>Price change (dur. + convexity)</td><td class="fx">−ModDur×Δy + ½×Convexity×(Δy)²</td></tr>
+      <tr><td>Money duration</td><td class="fx">ModDur × full price</td></tr>
+    </table>
+  </section>
+
+  <!-- DERIVATIVES -->
+  <section class="section" id="deriv">
+    <h2>Derivatives</h2>
+    <table class="formulas">
+      <tr><th>Concept</th><th>Formula</th></tr>
+      <tr><td>Put–call parity</td><td class="fx">C + PV(X) = P + S₀</td></tr>
+      <tr><td>Forward price (no income)</td><td class="fx">F₀ = S₀ (1 + r)<sup>T</sup></td></tr>
+      <tr><td>Call intrinsic value</td><td class="fx">max(0, S − X)</td></tr>
+      <tr><td>Put intrinsic value</td><td class="fx">max(0, X − S)</td></tr>
+      <tr><td>Option total value</td><td class="fx">intrinsic value + time value</td></tr>
+      <tr><td>Long forward payoff at T</td><td class="fx">S<sub>T</sub> − F₀</td></tr>
+    </table>
+  </section>
+
+  <!-- PM -->
+  <section class="section" id="pm">
+    <h2>Portfolio Management</h2>
+    <table class="formulas">
+      <tr><th>Concept</th><th>Formula</th></tr>
+      <tr><td>Portfolio return (2 assets)</td><td class="fx">w<sub>A</sub>R<sub>A</sub> + w<sub>B</sub>R<sub>B</sub></td></tr>
+      <tr><td>Portfolio variance (2 assets)</td><td class="fx">w<sub>A</sub>²σ<sub>A</sub>² + w<sub>B</sub>²σ<sub>B</sub>² + 2w<sub>A</sub>w<sub>B</sub>ρσ<sub>A</sub>σ<sub>B</sub></td></tr>
+      <tr><td>CAPM / SML</td><td class="fx">E(R) = R<sub>f</sub> + β[E(R<sub>m</sub>) − R<sub>f</sub>]</td></tr>
+      <tr><td>Beta</td><td class="fx">Cov(i, mkt) / σ²<sub>mkt</sub></td></tr>
+      <tr><td>Sharpe ratio</td><td class="fx">(R<sub>p</sub> − R<sub>f</sub>) / σ<sub>p</sub></td></tr>
+      <tr><td>Total risk</td><td class="fx">systematic + unsystematic risk</td></tr>
+    </table>
+  </section>
+
+</div>
+
+<footer class="site-footer">
+  <p>Aya CFA Level I Study Hub · <a href="notes.html">Notes</a> · <a href="quizzes.html">Quizzes</a></p>
+  <p style="margin-top:8px;font-size:.78rem;opacity:.8">Study aid only — not affiliated with CFA Institute.</p>
+</footer>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

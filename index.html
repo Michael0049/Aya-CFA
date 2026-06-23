@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aya CFA — Level I Study Hub</title>
+<meta name="description" content="Summarized notes, formula sheets, and quizzes for CFA Level I.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="index.html">
+      <span class="logo">A</span>
+      <span>Aya CFA<small>LEVEL I STUDY HUB</small></span>
+    </a>
+    <button class="nav-toggle" onclick="toggleNav()">&#9776;</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="notes.html">Notes</a>
+      <a href="formulas.html">Formula Sheets</a>
+      <a href="quizzes.html">Quizzes</a>
+    </div>
+  </nav>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <h1>Master CFA Level I, one topic at a time.</h1>
+    <p>Summarized notes, quick-reference formula sheets, and interactive quizzes across all ten topic areas — built to keep you moving forward.</p>
+    <div class="hero-actions">
+      <a class="btn" href="notes.html">Start studying</a>
+      <a class="btn ghost" href="quizzes.html">Test yourself</a>
+    </div>
+    <p class="quote" style="margin-top:24px">"The expert in anything was once a beginner. Every formula you learn today is one less surprise on exam day."</p>
+  </section>
+
+  <div class="page-head">
+    <h1>The 10 Topic Areas</h1>
+    <p>Percentages show the approximate weight on the Level I exam. Click into notes, formulas, or a quiz for each topic.</p>
+  </div>
+
+  <div class="grid" id="topicGrid"></div>
+</div>
+
+<footer class="site-footer">
+  <p>Aya CFA Level I Study Hub · Built for focused study · <a href="notes.html">Notes</a> · <a href="formulas.html">Formulas</a> · <a href="quizzes.html">Quizzes</a></p>
+  <p style="margin-top:8px;font-size:.78rem;opacity:.8">Study aid only — not affiliated with or endorsed by CFA Institute. CFA® is a registered trademark of CFA Institute.</p>
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script src="assets/js/topics.js"></script>
+<script>
+// Render topic cards from shared data
+(function(){
+  var grid=document.getElementById('topicGrid');
+  TOPICS.forEach(function(t){
+    var c=document.createElement('div');c.className='card';
+    c.innerHTML='<span class="num">'+t.num+'</span>'+
+      '<h3>'+t.name+'</h3>'+
+      '<p>'+t.blurb+'</p>'+
+      '<div class="links">'+
+        '<a class="pill weight">'+t.weight+'</a>'+
+        '<a class="pill" href="notes.html#'+t.id+'">Notes</a>'+
+        (t.hasFormulas?'<a class="pill" href="formulas.html#'+t.id+'">Formulas</a>':'')+
+        '<a class="pill" href="quiz.html?t='+t.id+'">Quiz</a>'+
+      '</div>';
+    grid.appendChild(c);
+  });
+})();
+</script>
+</body>
+</html>
