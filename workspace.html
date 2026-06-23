@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading Workspace — Aya CFA Level I</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="index.html"><span class="logo">A</span>
+      <span>Aya CFA<small>LEVEL I STUDY HUB</small></span></a>
+    <button class="nav-toggle" onclick="toggleNav()">&#9776;</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="workspace.html">Workspace</a>
+      <a href="notes.html">Notes</a>
+      <a href="formulas.html">Formula Sheets</a>
+      <a href="quizzes.html">Quizzes</a>
+      <a href="dashboard.html">Progress</a>
+    </div>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">Home</a> &rsaquo; Reading Workspace</div>
+  <div class="ws-head">
+    <span class="num" id="wsNum">01</span>
+    <h1 style="font-family:var(--serif);color:var(--plum);margin:0;font-size:2rem" id="wsTitle">Topic</h1>
+    <select class="topic-select" id="topicSelect" style="margin-left:auto"></select>
+  </div>
+  <p style="color:var(--muted);margin:4px 0 0" id="wsBlurb"></p>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-tab="overview">Overview</button>
+    <button class="tab" data-tab="handwritten">Handwritten Notes</button>
+    <button class="tab" data-tab="formula">Formula Sheet</button>
+    <button class="tab" data-tab="packet">Study Packet</button>
+    <button class="tab" data-tab="quiz">Quiz</button>
+    <button class="tab" data-tab="flash">Flashcards</button>
+    <button class="tab" data-tab="progress">Progress</button>
+  </div>
+
+  <div class="tab-panel active" id="panel-overview"></div>
+  <div class="tab-panel" id="panel-handwritten"></div>
+  <div class="tab-panel" id="panel-formula"></div>
+  <div class="tab-panel" id="panel-packet"></div>
+  <div class="tab-panel" id="panel-quiz"><div class="quiz-card"><div id="quizApp"></div></div></div>
+  <div class="tab-panel" id="panel-flash"></div>
+  <div class="tab-panel" id="panel-progress"></div>
+</div>
+
+<footer class="site-footer">
+  <p>Aya CFA Level I Study Hub · <a href="notes.html">Notes</a> · <a href="formulas.html">Formulas</a> · <a href="dashboard.html">Progress</a></p>
+  <p style="margin-top:8px;font-size:.78rem;opacity:.8">Study aid only — not affiliated with CFA Institute.</p>
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script src="assets/js/topics.js"></script>
+<script src="assets/js/content.js"></script>
+<script src="assets/js/quizzes.js"></script>
+<script src="assets/js/formulas-data.js"></script>
+<script src="assets/js/workspace.js"></script>
+</body>
+</html>

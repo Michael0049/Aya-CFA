@@ -20,9 +20,11 @@
     <button class="nav-toggle" onclick="toggleNav()">&#9776;</button>
     <div class="nav-links" id="navLinks">
       <a href="index.html">Home</a>
+      <a href="workspace.html">Workspace</a>
       <a href="notes.html">Notes</a>
       <a href="formulas.html">Formula Sheets</a>
       <a href="quizzes.html">Quizzes</a>
+      <a href="dashboard.html">Progress</a>
     </div>
   </nav>
 </header>
@@ -32,8 +34,9 @@
     <h1>Master CFA Level I, one topic at a time.</h1>
     <p>Summarized notes, quick-reference formula sheets, and interactive quizzes across all ten topic areas — built to keep you moving forward.</p>
     <div class="hero-actions">
-      <a class="btn" href="notes.html">Start studying</a>
+      <a class="btn" href="workspace.html">Open Workspace</a>
       <a class="btn ghost" href="quizzes.html">Test yourself</a>
+      <a class="btn ghost" href="dashboard.html">My Progress</a>
     </div>
     <p class="quote" style="margin-top:24px">"The expert in anything was once a beginner. Every formula you learn today is one less surprise on exam day."</p>
   </section>
@@ -64,8 +67,7 @@
       '<p>'+t.blurb+'</p>'+
       '<div class="links">'+
         '<a class="pill weight">'+t.weight+'</a>'+
-        '<a class="pill" href="notes.html#'+t.id+'">Notes</a>'+
-        (t.hasFormulas?'<a class="pill" href="formulas.html#'+t.id+'">Formulas</a>':'')+
+        '<a class="pill" href="workspace.html?t='+t.id+'">Workspace</a>'+
         '<a class="pill" href="quiz.html?t='+t.id+'">Quiz</a>'+
       '</div>';
     grid.appendChild(c);

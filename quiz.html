@@ -17,9 +17,11 @@
     <button class="nav-toggle" onclick="toggleNav()">&#9776;</button>
     <div class="nav-links" id="navLinks">
       <a href="index.html">Home</a>
+      <a href="workspace.html">Workspace</a>
       <a href="notes.html">Notes</a>
       <a href="formulas.html">Formula Sheets</a>
       <a href="quizzes.html">Quizzes</a>
+      <a href="dashboard.html">Progress</a>
     </div>
   </nav>
 </header>
@@ -52,6 +54,7 @@
   document.getElementById('quizTitle').textContent=qz.title+' — Quiz';
   document.getElementById('crumbTopic').textContent=qz.title;
   document.title=qz.title+' Quiz — Aya CFA';
+  qz.topicId=id;
   startQuiz(qz);
 })();
 </script>

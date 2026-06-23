@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Progress Dashboard — Aya CFA Level I</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="index.html"><span class="logo">A</span>
+      <span>Aya CFA<small>LEVEL I STUDY HUB</small></span></a>
+    <button class="nav-toggle" onclick="toggleNav()">&#9776;</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="workspace.html">Workspace</a>
+      <a href="notes.html">Notes</a>
+      <a href="formulas.html">Formula Sheets</a>
+      <a href="quizzes.html">Quizzes</a>
+      <a href="dashboard.html">Progress</a>
+    </div>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">Home</a> &rsaquo; Progress</div>
+  <div class="page-head">
+    <h1>Progress Dashboard</h1>
+    <p>Your study stats, tracked on this device. Take quizzes and run flashcard decks to populate it.</p>
+  </div>
+
+  <div class="kpi-grid" id="kpis"></div>
+
+  <div class="section">
+    <h2>Accuracy by topic</h2>
+    <div id="bars" style="margin-top:16px"></div>
+  </div>
+
+  <div class="grid" style="margin-top:4px">
+    <div class="section" style="margin:0">
+      <h2>Weakest areas</h2>
+      <div id="weak" style="margin-top:14px"></div>
+    </div>
+    <div class="section" style="margin:0">
+      <h2>Strongest areas</h2>
+      <div id="strong" style="margin-top:14px"></div>
+    </div>
+  </div>
+
+  <p style="margin-top:24px">
+    <button class="fc-btn dunno" id="resetBtn">Reset all progress</button>
+  </p>
+</div>
+
+<footer class="site-footer">
+  <p>Aya CFA Level I Study Hub · <a href="workspace.html">Workspace</a> · <a href="quizzes.html">Quizzes</a></p>
+  <p style="margin-top:8px;font-size:.78rem;opacity:.8">Progress is stored locally in your browser, on this device only.</p>
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script src="assets/js/topics.js"></script>
+<script>
+(function(){
+  var p=cfaLoadProgress();
+  var topics=TOPICS;
+  var rows=[]; // {name,acc,attempts}
+  var totalCorrect=0,totalAns=0,attempts=0,readingsTouched=0;
+  topics.forEach(function(t){
+    var d=p.topics&&p.topics[t.id];
+    if(d&&d.total){
+      var acc=Math.round(d.correct/d.total*100);
+      rows.push({id:t.id,name:t.name,acc:acc,attempts:d.attempts});
+      totalCorrect+=d.correct;totalAns+=d.total;attempts+=d.attempts;readingsTouched++;
+    }
+  });
+  var overall=totalAns?Math.round(totalCorrect/totalAns*100):0;
+  var streak=(p.days||[]).length;
+
+  // KPIs
+  function kpi(big,lbl){return '<div class="kpi"><div class="big">'+big+'</div><div class="lbl">'+lbl+'</div></div>';}
+  document.getElementById('kpis').innerHTML=
+    kpi(readingsTouched+'/'+topics.length,'Topics practiced')+
+    kpi(overall+'%','Overall accuracy')+
+    kpi(attempts,'Quizzes taken')+
+    kpi(totalAns,'Questions answered')+
+    kpi(streak,'Study days');
+
+  // bars
+  var bars=document.getElementById('bars');
+  if(!rows.length){ bars.innerHTML='<p class="empty-note">No quiz data yet. Head to the <a href="workspace.html">Workspace</a> and take a quiz.</p>'; }
+  else{
+    var sorted=rows.slice().sort(function(a,b){return b.acc-a.acc;});
+    bars.innerHTML=sorted.map(function(r){
+      var cls=r.acc>=70?'strong':(r.acc<55?'weak':'');
+      return '<div class="bar-row"><span class="name">'+r.name+'</span>'+
+        '<div class="bar-track"><div class="bar-fill '+cls+'" style="width:'+r.acc+'%"></div></div>'+
+        '<span class="pct">'+r.acc+'%</span></div>';
+    }).join('');
+  }
+
+  // weak / strong
+  function list(el,arr,empty){
+    var e=document.getElementById(el);
+    if(!arr.length){e.innerHTML='<p class="empty-note">'+empty+'</p>';return;}
+    e.innerHTML=arr.map(function(r){
+      return '<div class="bar-row"><span class="name"><a href="workspace.html?t='+r.id+'">'+r.name+'</a></span>'+
+        '<span class="pct" style="flex:1;text-align:left;color:'+(r.acc<55?'#d9534f':'#3a9b7e')+'">'+r.acc+'%</span></div>';
+    }).join('');
+  }
+  var weak=rows.filter(function(r){return r.acc<70;}).sort(function(a,b){return a.acc-b.acc;}).slice(0,5);
+  var strong=rows.filter(function(r){return r.acc>=70;}).sort(function(a,b){return b.acc-a.acc;}).slice(0,5);
+  list('weak',weak,'No weak areas yet — or no data.');
+  list('strong',strong,'Take quizzes to build strengths.');
+
+  document.getElementById('resetBtn').onclick=function(){
+    if(confirm('Reset all your saved progress on this device?')){
+      try{localStorage.removeItem('cfa-progress');}catch(e){}
+      location.reload();
+    }
+  };
+})();
+</script>
+</body>
+</html>
