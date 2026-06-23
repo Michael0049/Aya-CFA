@@ -9,11 +9,70 @@ document.addEventListener('DOMContentLoaded',function(){
     var href=a.getAttribute('href');
     if(href===path||(path==='index.html'&&href==='index.html')) a.classList.add('active');
   });
+  injectThemeToggle();
 });
+
+/* ===== Dark mode ===== */
+function applyTheme(t){
+  if(t==='dark') document.documentElement.setAttribute('data-theme','dark');
+  else document.documentElement.removeAttribute('data-theme');
+}
+function injectThemeToggle(){
+  var saved='light';
+  try{ saved=localStorage.getItem('cfa-theme')||'light'; }catch(e){}
+  applyTheme(saved);
+  var nav=document.querySelector('.nav-links');
+  if(!nav) return;
+  var btn=document.createElement('button');
+  btn.className='theme-toggle';
+  btn.setAttribute('aria-label','Toggle dark mode');
+  btn.innerHTML=saved==='dark'?'☀':'☾';
+  btn.onclick=function(){
+    var cur=document.documentElement.getAttribute('data-theme')==='dark'?'dark':'light';
+    var next=cur==='dark'?'light':'dark';
+    applyTheme(next);
+    try{ localStorage.setItem('cfa-theme',next); }catch(e){}
+    btn.innerHTML=next==='dark'?'☀':'☾';
+  };
+  nav.appendChild(btn);
+}
+// Apply theme ASAP to avoid flash (before DOMContentLoaded)
+(function(){
+  try{ if(localStorage.getItem('cfa-theme')==='dark') document.documentElement.setAttribute('data-theme','dark'); }catch(e){}
+})();
+
+/* ===== Progress tracking (localStorage) ===== */
+function cfaLoadProgress(){
+  try{ return JSON.parse(localStorage.getItem('cfa-progress')||'{}'); }catch(e){ return {}; }
+}
+function cfaSaveProgress(p){
+  try{ localStorage.setItem('cfa-progress',JSON.stringify(p)); }catch(e){}
+}
+function cfaRecordQuiz(topicId,correct,total){
+  var p=cfaLoadProgress();
+  if(!p.topics) p.topics={};
+  var t=p.topics[topicId]||{correct:0,total:0,attempts:0};
+  t.correct+=correct; t.total+=total; t.attempts+=1; t.last=Date.now();
+  p.topics[topicId]=t;
+  // study streak (distinct days)
+  var today=new Date().toISOString().slice(0,10);
+  if(!p.days) p.days=[];
+  if(p.days.indexOf(today)===-1) p.days.push(today);
+  p.lastActive=today;
+  cfaSaveProgress(p);
+}
+function cfaRecordFlashcards(topicId,known,total){
+  var p=cfaLoadProgress();
+  if(!p.flash) p.flash={};
+  p.flash[topicId]={known:known,total:total,last:Date.now()};
+  var today=new Date().toISOString().slice(0,10);
+  if(!p.days) p.days=[]; if(p.days.indexOf(today)===-1) p.days.push(today);
+  cfaSaveProgress(p);
+}
 
 /* ===== Quiz engine =====
    Expects a global QUIZ = { title, topic, questions:[{q, options:[], answer:index, explain}] }
-   and a container <div id="quizApp"></div>
+   and a container <div id="quizApp"></div>. Optional QUIZ.topicId enables progress tracking.
 */
 function startQuiz(QUIZ){
   var app=document.getElementById('quizApp');
@@ -62,6 +121,7 @@ function startQuiz(QUIZ){
   }
   function results(){
     var pct=Math.round(score/QUIZ.questions.length*100);
+    if(QUIZ.topicId) cfaRecordQuiz(QUIZ.topicId,score,QUIZ.questions.length);
     var msg = pct>=80?"Excellent — you're exam-ready on this topic!":
               pct>=60?"Solid. Review the misses and run it again.":
               "Keep going — revisit the notes, then retry. Progress beats perfection.";
