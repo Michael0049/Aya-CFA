@@ -284,6 +284,23 @@ table.formulas tr:nth-child(even){background:#fdf4f7}
 .bar-fill.strong{background:linear-gradient(90deg,#5bbf9c,#3a9b7e)}
 .empty-note{color:var(--muted);font-style:italic;text-align:center;padding:30px}
 
+/* ===== Formula Handbook blocks ===== */
+.fh-block{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:18px 22px;margin-bottom:16px;box-shadow:var(--shadow);text-align:center}
+.fh-name{font-family:var(--serif);font-size:1.15rem;font-weight:700;color:var(--plum);margin-bottom:10px}
+.fh-formula{font-family:"Cormorant Garamond","Cambria Math",Georgia,serif;font-size:1.5rem;
+  color:var(--rose);margin:12px 0;letter-spacing:.3px}
+.fh-vars{display:inline-block;text-align:left;margin:8px auto 0;color:var(--muted);font-size:.9rem;padding-left:18px}
+.fh-vars li{margin:3px 0}
+
+/* ===== Rich study packet concept blocks ===== */
+.concept{border-top:1px solid var(--line);padding:14px 0;margin-top:6px}
+.concept:first-of-type{border-top:0}
+.concept-name{font-weight:700;color:var(--rose);font-size:1.05rem;margin-bottom:6px}
+.concept-formula{font-family:"Cormorant Garamond","Cambria Math",Georgia,serif;font-style:italic;
+  font-size:1.25rem;color:var(--plum);text-align:center;background:var(--blush);
+  padding:10px;border-radius:8px;margin:10px 0}
+
 @media print{
   .site-header,.site-footer,.tabs,.theme-toggle,.fc-controls{display:none}
   .tab-panel{display:block!important}
