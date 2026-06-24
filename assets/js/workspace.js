@@ -45,16 +45,28 @@
     document.getElementById('wsBlurb').textContent=m.blurb||'';
 
     // OVERVIEW
-    var hw=(c.handwritten||[]).length, pk=(c.packet||[]).length, fc=(c.flashcards||[]).length;
-    var fx=(FORMULAS[current]||[]).length, qz=(QUIZZES[current]||{questions:[]}).questions.length;
+    var P=richPacket();
+    var hw=(c.handwritten||[]).length, fc=(c.flashcards||[]).length;
+    var qz=(QUIZZES[current]||{questions:[]}).questions.length;
+    var pkLabel, fxLabel, fxCount;
+    if(P){
+      var concepts=0, formulas=0;
+      P.sections.forEach(function(s){ concepts+=s.concepts.length; s.concepts.forEach(function(x){if(x.formula)formulas++;}); });
+      pkLabel=P.sections.length+' sections · '+concepts+' concepts';
+      fxLabel=formulas+' formulas (full handbook)'; fxCount=formulas;
+    } else {
+      pkLabel=(c.packet||[]).length+' sections';
+      fxCount=(FORMULAS[current]||[]).length; fxLabel=fxCount+' formulas';
+    }
     document.getElementById('panel-overview').innerHTML=
       '<div class="packet-block"><h4>'+esc(m.name)+'</h4>'+
-      '<p style="color:var(--muted)">Exam weight: <b style="color:var(--rose)">'+m.weight+'</b></p>'+
+      '<p style="color:var(--muted)">Exam weight: <b style="color:var(--rose)">'+m.weight+'</b>'+
+        (P?'  ·  <span style="color:var(--accent-2)">Built from your Kaplan handout</span>':'')+'</p>'+
       '<p>'+esc(m.blurb)+'</p>'+
       '<div class="grid" style="margin-top:18px">'+
         ovCard('Handwritten Notes',hw+' condensed cards','handwritten')+
-        (fx?ovCard('Formula Sheet',fx+' formulas','formula'):'')+
-        ovCard('Study Packet',pk+' sections','packet')+
+        (fxCount?ovCard('Formula Handbook',fxLabel,'formula'):'')+
+        ovCard('Study Packet',pkLabel,'packet')+
         ovCard('Quiz',qz+' questions','quiz')+
         ovCard('Flashcards',fc+' cards','flash')+
         ovCard('Progress','Your accuracy','progress')+
@@ -66,6 +78,8 @@
     renderFlash(c.flashcards||[]);
     renderProgress();
   }
+
+  function richPacket(){ return (window.PACKETS && window.PACKETS[current]) ? window.PACKETS[current] : null; }
 
   function ovCard(title,sub,tab){
     return '<div class="card" style="cursor:pointer" onclick="(function(){document.querySelector(\'.tab[data-tab=\\\''+tab+'\\\']\').click();})()">'+
@@ -90,26 +104,99 @@
   }
 
   function renderFormula(rows){
-    if(!rows.length){document.getElementById('panel-formula').innerHTML='<p class="empty-note">This topic is conceptual — no formula sheet.</p>';return;}
-    var html='<p style="color:var(--muted);margin-top:0"><button class="fc-btn" onclick="window.print()">🖨 Print formula sheet</button></p><table class="formulas"><tr><th>Concept</th><th>Formula</th></tr>';
-    rows.forEach(function(r){ html+='<tr><td>'+esc(r[0])+'</td><td class="fx">'+esc(r[1])+'</td></tr>'; });
-    html+='</table>';
-    document.getElementById('panel-formula').innerHTML=html;
+    var panel=document.getElementById('panel-formula');
+    var P=richPacket();
+    // Build a Formula Handbook from the rich packet if available
+    if(P){
+      var blocks=[];
+      P.sections.forEach(function(sec){
+        sec.concepts.forEach(function(con){
+          if(con.formula) blocks.push(con);
+        });
+      });
+      if(blocks.length){
+        var html='<p style="color:var(--muted);margin-top:0">Formula Handbook — '+blocks.length+' formulas, 100% coverage. '+
+          '<button class="fc-btn" onclick="window.print()">🖨 Print</button></p>';
+        blocks.forEach(function(con){
+          html+='<div class="fh-block"><div class="fh-name">'+esc(con.name)+'</div>'+
+            '<div class="fh-formula">'+esc(con.formula)+'</div>';
+          if(con.variables && con.variables.length){
+            html+='<ul class="fh-vars">';
+            con.variables.forEach(function(v){ html+='<li>'+esc(v)+'</li>'; });
+            html+='</ul>';
+          }
+          html+='</div>';
+        });
+        panel.innerHTML=html;
+        return;
+      }
+    }
+    // fallback to simple table
+    if(!rows.length){panel.innerHTML='<p class="empty-note">This topic is conceptual — no formula sheet.</p>';return;}
+    var h='<p style="color:var(--muted);margin-top:0"><button class="fc-btn" onclick="window.print()">🖨 Print formula sheet</button></p><table class="formulas"><tr><th>Concept</th><th>Formula</th></tr>';
+    rows.forEach(function(r){ h+='<tr><td>'+esc(r[0])+'</td><td class="fx">'+esc(r[1])+'</td></tr>'; });
+    h+='</table>';
+    panel.innerHTML=h;
   }
 
   function renderPacket(secs){
-    if(!secs.length){document.getElementById('panel-packet').innerHTML='<p class="empty-note">No study packet yet.</p>';return;}
-    var html='';
+    var panel=document.getElementById('panel-packet');
+    var P=richPacket();
+    if(P){
+      var html='<p style="color:var(--muted);margin-top:0">Study Packet — built from your Kaplan Masterclass handout. '+
+        '<button class="fc-btn" onclick="window.print()">🖨 Print</button></p>';
+      P.sections.forEach(function(sec){
+        html+='<div class="packet-block"><h4>'+esc(sec.id)+' '+esc(sec.title)+'</h4>';
+        sec.concepts.forEach(function(con){
+          html+='<div class="concept"><div class="concept-name">'+esc(con.name)+'</div>';
+          if(con.definition) html+=row('Definition',con.definition);
+          if(con.intuition) html+=row('Intuition',con.intuition);
+          if(con.formula){
+            html+='<div class="concept-formula">'+esc(con.formula)+'</div>';
+            if(con.variables && con.variables.length){
+              html+='<ul class="fh-vars">';
+              con.variables.forEach(function(v){ html+='<li>'+esc(v)+'</li>'; });
+              html+='</ul>';
+            }
+          }
+          if(con.examNotes && con.examNotes.length){
+            html+='<div class="packet-row trap"><span class="tag">Exam notes</span><span><ul style="margin:0;padding-left:18px">';
+            con.examNotes.forEach(function(n){ html+='<li>'+esc(n)+'</li>'; });
+            html+='</ul></span></div>';
+          }
+          if(con.uses) html+=row('When to use',con.uses);
+          html+='</div>';
+        });
+        html+='</div>';
+      });
+      // memorization sheet
+      if(P.memorization && P.memorization.length){
+        html+='<div class="packet-block" style="border-left:4px solid var(--rose)"><h4>⚡ Quick Memorization Sheet</h4><ul>';
+        P.memorization.forEach(function(m){ html+='<li>'+esc(m)+'</li>'; });
+        html+='</ul></div>';
+      }
+      // abbreviations
+      if(P.abbreviations && P.abbreviations.length){
+        html+='<div class="packet-block"><h4>Abbreviations</h4><table class="formulas"><tr><th>Abbr.</th><th>Meaning</th></tr>';
+        P.abbreviations.forEach(function(a){ html+='<tr><td>'+esc(a[0])+'</td><td>'+esc(a[1])+'</td></tr>'; });
+        html+='</table></div>';
+      }
+      panel.innerHTML=html;
+      return;
+    }
+    // fallback to old simple packet
+    if(!secs.length){panel.innerHTML='<p class="empty-note">No study packet yet.</p>';return;}
+    var h='';
     secs.forEach(function(s){
-      html+='<div class="packet-block"><h4>'+esc(s.heading)+'</h4>';
-      if(s.definition) html+=row('Definition',s.definition);
-      if(s.intuition) html+=row('Intuition',s.intuition);
-      if(s.relationships) html+=row('Relationships',s.relationships);
-      if(s.mistakes) html+=row('Mistakes',s.mistakes);
-      if(s.trap) html+=row('CFA trap',s.trap,true);
-      html+='</div>';
+      h+='<div class="packet-block"><h4>'+esc(s.heading)+'</h4>';
+      if(s.definition) h+=row('Definition',s.definition);
+      if(s.intuition) h+=row('Intuition',s.intuition);
+      if(s.relationships) h+=row('Relationships',s.relationships);
+      if(s.mistakes) h+=row('Mistakes',s.mistakes);
+      if(s.trap) h+=row('CFA trap',s.trap,true);
+      h+='</div>';
     });
-    document.getElementById('panel-packet').innerHTML=html;
+    panel.innerHTML=h;
   }
   function row(tag,val,trap){
     return '<div class="packet-row'+(trap?' trap':'')+'"><span class="tag">'+tag+'</span><span>'+esc(val)+'</span></div>';
